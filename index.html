@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <link rel="stylesheet" href="styles1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="scattered-images">
+    <img src="image1.jpg" alt="Image 1" class="scattered-image">
+    <img src="image2.jpg" alt="Image 2" class="scattered-image">
+    <img src="image3.jpg" alt="Image 3" class="scattered-image">
+    <img src="image4.jpg" alt="Image 4" class="scattered-image">
+    <img src="image5.jpg" alt="Image 5" class="scattered-image">
+    <img src="image6.jpg" alt="Image 6" class="scattered-image">
+    <img src="image7.jpg" alt="Image 7" class="scattered-image">
+    <img src="image8.jpg" alt="Image 8" class="scattered-image">
+    <img src="image9.jpg" alt="Image 9" class="scattered-image">
+    <img src="image10.jpg" alt="Image 10" class="scattered-image">
+    <img src="image11.jpg" alt="Image 11" class="scattered-image">
+    <img src="image12.jpg" alt="Image 12" class="scattered-image" id="last-image">
+</div>
+<button id="click-me-button" style="display: none;">Click Me</button>
+<div id="valentine-question" style="display: none;">
+    <table>
+        <tr>
+            <th colspan="2">Will You Be My Valentine? <br> Kwesiwaa <span class="heart">❤️</span></th>
+        </tr>   
+            <tr>
+                <td>You make my heart smile every day <span class="heart">❤️</span></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="button-container">
+                        <button id="yes-button" class="btn btn-yes">Yes 🥹</button>
+                        <button id="no-button" class="btn btn-maybe">No 😡</button>
+                    </div>
+                </td>
+            </tr>
+            
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+    document.getElementById('last-image').addEventListener('animationend', function() {
+        var button = document.getElementById('click-me-button');
+        button.style.display = 'block';
+    });
+
+    document.getElementById('click-me-button').addEventListener('click', function() {
+        var valentineQuestion = document.getElementById('valentine-question');
+        valentineQuestion.style.display = 'block';
+        this.style.display = 'none';
+    });
+
+    const noButton = document.getElementById('no-button');
+    const yesButton = document.getElementById('yes-button');
+
+    function moveButton() {
+        const buffer = 10; // Safe distance from edges
+        const maxWidth = window.innerWidth - noButton.offsetWidth - buffer;
+        const maxHeight = window.innerHeight - noButton.offsetHeight - buffer;
+        
+        // Generate new random position
+        let newX = Math.random() * maxWidth;
+        let newY = Math.random() * maxHeight;
+        
+        // Ensure button stays within viewport
+        newX = Math.max(buffer, Math.min(newX, maxWidth));
+        newY = Math.max(buffer, Math.min(newY, maxHeight));
+        
+        // Apply new position with smooth transition
+        noButton.style.position = 'fixed';
+        noButton.style.left = `${newX}px`;
+        noButton.style.top = `${newY}px`;
+        noButton.style.transform = 'translate(0, 0)'; // Reset any existing transform
+    }
+
+    noButton.addEventListener('mouseover', moveButton);
+
+    yesButton.addEventListener('click', () => {
+        // Trigger confetti
+        confetti({
+            particleCount: 1000,
+            spread: 79,
+            origin: { y: 0.6 }
+        });
+        alert("🥰🥰 REALLY CAN'T WAIT TO SEE YOU LOVE 🥹🥲❤️");
+    });
+
+    function moveButton() {
+    // Get viewport dimensions
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Get button dimensions
+    const buttonWidth = noButton.offsetWidth;
+    const buttonHeight = noButton.offsetHeight;
+    
+    // Calculate maximum allowed positions
+    // Subtract button size and a buffer to keep it fully visible
+    const maxX = viewportWidth - buttonWidth - 20;  // 20px buffer from edge
+    const maxY = viewportHeight - buttonHeight - 20; // 20px buffer from edge
+    
+    // Generate random position within safe bounds
+    let newX = Math.random() * maxX;
+    let newY = Math.random() * maxY;
+    
+    // Ensure minimum distance from edges
+    newX = Math.max(20, newX); // At least 20px from left
+    newY = Math.max(20, newY); // At least 20px from top
+    
+    // Apply new position
+    noButton.style.position = 'fixed';
+    noButton.style.left = `${newX}px`;
+    noButton.style.top = `${newY}px`;
+}
+
+// Add event listeners
+noButton.addEventListener('mouseover', moveButton);
+
+// Optional: Add an interval to check if button is visible
+setInterval(() => {
+    const rect = noButton.getBoundingClientRect();
+    if (rect.right < 0 || rect.bottom < 0 || 
+        rect.left > window.innerWidth || 
+        rect.top > window.innerHeight) {
+        // If button is outside viewport, reset its position
+        moveButton();
+    }
+}, 1000);
+</script>
+</body>
+</html>
